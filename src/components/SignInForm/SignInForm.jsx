@@ -39,7 +39,7 @@ const SignInForm = () => {
       <p>{message}</p>
       <form autoComplete='off' onSubmit={handleSubmit}>
         <div>
-          <label htmlFor='email'>Username:</label>
+          <label htmlFor='username'>Username:</label>
           <input
             type='text'
             autoComplete='off'
@@ -64,7 +64,7 @@ const SignInForm = () => {
         </div>
         <div>
           <button>Sign In</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
     </main>

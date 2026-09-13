@@ -1,36 +1,42 @@
 // src/components/Dashboard/Dashboard.jsx
 
 import { useEffect, useState, useContext } from 'react';
-
 import { UserContext } from '../../contexts/UserContext';
+import * as incidentService from '../../services/incidentService';
+import * as threatService from '../../services/threatService';
+import * as investigationService from '../../services/investigationService';
 
 const Dashboard = () => {
   const { user } = useContext(UserContext);
-  const [users, setUsers] = useState([]);
+  const [incidents, setIncidents]   = useState([]);
+  const [threats, setThreats ] = useState([]);
+  const  [investigations, setInvestigations ] = useState([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const fetchedUsers = await userService.index();
-        setUsers(fetchedUsers);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    if (user) fetchUsers();
+    const fetchAll = async () => {
+    try {
+      const[incidentData, threatData, investigationData] = await Promise.all([
+        incidentService.index(),
+        threatService.index(),
+        investigationService.index(), 
+      ]);
+      setIncidents(incidentData);
+      setThreats(threatData);
+      setInvestigations(investigationData);  
+    } catch (err) {
+      console.log(err);
+      
+    }
+  };
+    if (user) fetchAll();
   }, [user]);
 
-  return (
+   return (
     <main>
       <h1>Welcome, {user.username}</h1>
-      <p>
-        This is the dashboard page where you can see a list of all the users.
-      </p>
-      <ul>
-        {users.map((otherUser) => (
-          <li key={otherUser._id}>{otherUser.username}</li>
-        ))}
-      </ul>
+      <p>Total incidents: {incidents.length}</p>
+      <p>Total threats: {threats.length}</p>
+      <p>Total investigations: {investigations.length}</p>
     </main>
   );
 };

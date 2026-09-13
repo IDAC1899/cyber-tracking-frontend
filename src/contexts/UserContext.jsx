@@ -10,7 +10,7 @@ const getUserFromToken = () => {
 
   if (!tokenInStorage) return null;
 
-  return JSON.parse(atob(tokenInStorage.split('.')[1])).payload;
+  return JSON.parse(atob(tokenInStorage.split('.')[1]));
 };
 
 function UserProvider({ children }) {
