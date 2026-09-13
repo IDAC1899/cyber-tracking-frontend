@@ -1,4 +1,4 @@
-// SignUpForm.jsx
+// src/components/SignUpForm/SignUpForm.jsx
 
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
@@ -12,11 +12,13 @@ const SignUpForm = () => {
   const [message, setMessage] = useState('');
   const [formData, setFormData] = useState({
     username: '',
+    name: '',
+    email: '',
     password: '',
     passwordConf: '',
   });
 
-  const { username, password, passwordConf } = formData;
+  const { username, name, email, password, passwordConf } = formData;
 
   const handleChange = (evt) => {
     setMessage('');
@@ -27,15 +29,15 @@ const SignUpForm = () => {
     evt.preventDefault();
     try {
       const newUser = await signUp(formData);
-      setUser(newUser);
-      navigate('/');
+    setUser(newUser);
+    navigate('/');
     } catch (err) {
       setMessage(err.message);
     }
   };
 
   const isFormInvalid = () => {
-    return !(username && password && password === passwordConf);
+    return !(username && name && email && password && password === passwordConf);
   };
 
   return (
@@ -47,9 +49,31 @@ const SignUpForm = () => {
           <label htmlFor='username'>Username:</label>
           <input
             type='text'
-            id='name'
+            id='username'
             value={username}
             name='username'
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor='name'>Name:</label>
+          <input
+            type='text'
+            id='name'
+            value={name}
+            name='name'
+            onChange={handleChange}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor='email'>Email:</label>
+          <input
+            type='email'
+            id='email'
+            value={email}
+            name='email'
             onChange={handleChange}
             required
           />
@@ -63,7 +87,7 @@ const SignUpForm = () => {
             name='password'
             onChange={handleChange}
             required
-          />
+        />
         </div>
         <div>
           <label htmlFor='confirm'>Confirm Password:</label>
@@ -78,7 +102,7 @@ const SignUpForm = () => {
         </div>
         <div>
           <button disabled={isFormInvalid()}>Sign Up</button>
-          <button onClick={() => navigate('/')}>Cancel</button>
+          <button type="button" onClick={() => navigate('/')}>Cancel</button>
         </div>
       </form>
     </main>
