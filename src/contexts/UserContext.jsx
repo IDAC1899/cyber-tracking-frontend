@@ -23,8 +23,7 @@ function UserProvider({ children }) {
       {children}
     </UserContext.Provider>
   );
-};
+}
 
-UserProvider.UserContext = UserContext;
-
-export default UserProvider;
+// eslint-disable-next-line react-refresh/only-export-components
+export { UserProvider, UserContext };
