@@ -4,8 +4,6 @@ import { useEffect, useState, useContext } from 'react';
 
 import { UserContext } from '../../contexts/UserContext';
 
-import * as userService from '../../services/userService';
-
 const Dashboard = () => {
   const { user } = useContext(UserContext);
   const [users, setUsers] = useState([]);
