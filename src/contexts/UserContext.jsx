@@ -25,4 +25,6 @@ function UserProvider({ children }) {
   );
 };
 
-export { UserProvider, UserContext };
+UserProvider.UserContext = UserContext;
+
+export default UserProvider;
