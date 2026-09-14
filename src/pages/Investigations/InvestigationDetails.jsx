@@ -90,3 +90,25 @@ const InvestigationDetails = () => {
           </div>
         )}
       </div>
+            <div className='action-row'>
+        <Link to={`/investigations/${investigation._id}/edit`} className='btn btn-secondary'>Edit</Link>
+
+        {user.role === 'admin' && (
+          <button onClick={() => setShowConfirm(true)} className='btn btn-danger'>Delete</button>
+        )}
+
+        <Link to='/investigations' className='btn btn-link'>Back to list</Link>
+      </div>
+
+      {showConfirm && (
+        <ConfirmDelete
+          itemName={investigation.title}
+          onConfirm={handleDelete}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+    </main>
+  );
+};
+
+export default InvestigationDetails;
