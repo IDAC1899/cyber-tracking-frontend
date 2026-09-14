@@ -70,3 +70,26 @@ const update = async (investigationId, formData) => {
         throw formatError(err);
     }
 };
+
+const deleteInvestigation = async (investigationId) => {
+    try {
+        const res = await fetch(`${BASE_URL}/${investigationId}`, {
+            method: 'DELETE',
+            headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+        });
+        const data = await res.json();
+        if (data.err) throw new Error(data.err);
+        return data;
+    } catch (err) {
+        console.log(err);
+        throw formatError(err);
+    }
+};
+
+export {
+  index,
+  show,
+  create,
+  update,
+  deleteInvestigation,
+};
