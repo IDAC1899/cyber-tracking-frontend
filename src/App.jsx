@@ -14,6 +14,10 @@ import IncidentList from './pages/Incidents/IncidentList';
 import IncidentDetails from './pages/Incidents/IncidentDetails';
 import IncidentForm from './pages/Incidents/IncidentForm';
 
+import ThreatList from './pages/Threats/ThreatList';
+import ThreatDetails from './pages/Threats/ThreatDetails';
+import ThreatForm from './pages/Threats/ThreatForm';
+
 import { UserContext } from './contexts/UserContext';
 
 const App = () => {
@@ -42,6 +46,23 @@ const App = () => {
         <Route
           path='/incidents/:incidentId/edit'
           element={<ProtectedRoute><IncidentForm /></ProtectedRoute>}
+        />
+
+        <Route
+          path='/threats'
+          element={<ProtectedRoute><ThreatList /></ProtectedRoute>}
+        />
+        <Route
+          path='/threats/new'
+          element={<ProtectedRoute><ThreatForm /></ProtectedRoute>}
+        />
+        <Route
+          path='/threats/:threatId'
+          element={<ProtectedRoute><ThreatDetails /></ProtectedRoute>}
+        />
+        <Route
+          path='/threats/:threatId/edit'
+          element={<ProtectedRoute><ThreatForm /></ProtectedRoute>}
         />
       </Routes>
     </>
