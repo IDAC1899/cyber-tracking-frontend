@@ -18,6 +18,10 @@ import ThreatList from './pages/Threats/ThreatList';
 import ThreatDetails from './pages/Threats/ThreatDetails';
 import ThreatForm from './pages/Threats/ThreatForm';
 
+import InvestigationList from './pages/Investigations/InvestigationList';
+import InvestigationDetails from './pages/Investigations/InvestigationDetails';
+import InvestigationForm from './pages/Investigations/InvestigationForm';
+
 import { UserContext } from './contexts/UserContext';
 
 const App = () => {
@@ -63,6 +67,23 @@ const App = () => {
         <Route
           path='/threats/:threatId/edit'
           element={<ProtectedRoute><ThreatForm /></ProtectedRoute>}
+        />
+
+        <Route
+          path='/investigations'
+          element={<ProtectedRoute><InvestigationList /></ProtectedRoute>}
+        />
+        <Route
+          path='/investigations/new'
+          element={<ProtectedRoute><InvestigationForm /></ProtectedRoute>}
+        />
+        <Route
+          path='/investigations/:investigationId'
+          element={<ProtectedRoute><InvestigationDetails /></ProtectedRoute>}
+        />
+        <Route
+          path='/investigations/:investigationId/edit'
+          element={<ProtectedRoute><InvestigationForm /></ProtectedRoute>}
         />
       </Routes>
     </>
