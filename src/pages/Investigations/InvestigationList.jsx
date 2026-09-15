@@ -41,38 +41,51 @@ const InvestigationList = () => {
   }, []);
   
   return (
-    <main className='investigation-list-page'>
-      {/* page header: title + new investigation button */}
-      <div className='page-header'>
-        <h1>Investigations</h1>
-        <Link to='/investigations/new' className='btn btn-primary'>+ New Investigation</Link>
+    <main>
+      <p className="eyebrow">Investigation list</p>
+
+      <div className="page-banner">
+        <svg className="page-banner-shapes" width="220" height="140" viewBox="0 0 220 140">
+          <polygon points="130,10 175,35 175,85 130,110 85,85 85,35" fill="none" stroke="#1c3a34" strokeWidth="2" />
+          <circle cx="60" cy="100" r="30" fill="none" stroke="#12352f" strokeWidth="2" />
+        </svg>
+        <div>
+          <h1>Investigations</h1>
+          <p>{investigations.length} open {investigations.length === 1 ? 'case' : 'cases'}</p>
+        </div>
+        <Link to="/investigations/new" className="btn btn-light">+ New investigation</Link>
       </div>
 
-            {message && <p className='error-message'>{message}</p>}
-      {loading && <p className='status-message'>Loading investigations...</p>}
+      {message && <p className="error-message">{message}</p>}
+      {loading && <p className="status-message">Loading investigations...</p>}
 
       {!loading && !message && investigations.length === 0 && (
-        <div className='empty-state'>
+        <div className="empty-state">
           <p>No investigations yet.</p>
-          <Link to='/investigations/new' className='btn btn-primary'>+ Create the first investigation</Link>
+          <Link to="/investigations/new" className="btn btn-primary">+ Create the first investigation</Link>
         </div>
       )}
 
-      {/* investigation rows */}
-      <div className='investigation-list'>
-        {investigations.map((investigation) => (
-          <div key={investigation._id} className='investigation-row'>
-            <Link to={`/investigations/${investigation._id}`} className='investigation-row-link'>
-              <span className={`badge badge-priority-${investigation.priority.toLowerCase()}`}>
-                {investigation.priority}
-              </span>
-              <span className='investigation-title'>{investigation.title}</span>
-              <span className={`badge badge-status-${investigation.status.toLowerCase().replace(' ', '-')}`}>
-                {investigation.status}
-              </span>
-            </Link>
-          </div>
-        ))}
+      <div className="incident-list">
+        {investigations.map((investigation) => {
+          const pri = PRIORITY_STYLE[investigation.priority] || PRIORITY_STYLE.Low;
+          return (
+            <div className="incident-row" key={investigation._id}>
+              <div className={`incident-row-accent ${PRIORITY_ACCENT[investigation.priority]}`} />
+              <Link to={`/investigations/${investigation._id}`} className="incident-row-link">
+                <svg className={`row-watermark watermark-${pri.family}`} width="70" height="70" viewBox="0 0 70 70">
+                  <polygon points="35,4 62,20 62,50 35,66 8,50 8,20" fill="none" strokeWidth="10" />
+                </svg>
+                <div className={`incident-row-icon icon-chip-${pri.family}`}>
+                  <i className={`ti ti-${pri.icon}`} aria-hidden="true"></i>
+                </div>
+                <span className="incident-row-title">{investigation.title}</span>
+                <span className={`badge ${PRIORITY_BADGE[investigation.priority]}`}>{investigation.priority}</span>
+                <span className={`badge ${STATUS_BADGE[investigation.status]}`}>{investigation.status}</span>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </main>
   );
