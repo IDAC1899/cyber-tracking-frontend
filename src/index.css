@@ -32,10 +32,14 @@
 
 body {
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', Arial, Helvetica, sans-serif;
   background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+}
+
+h1, h2, h3 {
+  font-family: 'Sora', 'Inter', Arial, sans-serif;
 }
 
 main {
@@ -469,7 +473,7 @@ button,
 .form-header-pattern {
   position: absolute;
   right: 0;
-  top: -10px;
+  top: -20px;
   opacity: 0.35;
   pointer-events: none;
 }
@@ -517,6 +521,57 @@ button,
 
 .form-row .form-field {
   flex: 1;
+}
+
+/* ===== Icon-prefixed inputs (used on auth forms) ===== */
+.input-icon-wrap {
+  position: relative;
+}
+
+.input-icon-wrap input {
+  width: 100%;
+  padding-left: 38px;
+}
+
+.input-icon {
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--teal);
+  font-size: 17px;
+  pointer-events: none;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  color: var(--text-muted);
+  font-size: 16px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.password-toggle:hover {
+  color: var(--teal);
+}
+
+/* ===== Form header with icon + watermark, used on auth pages too ===== */
+.form-header-icon-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+}
+
+.form-header-icon-row i {
+  font-size: 20px;
+  color: #fff;
 }
 
 .form-actions {
@@ -769,12 +824,46 @@ button:disabled,
 
 /* ===== Auth pages (Sign In / Sign Up) ===== */
 .auth-page {
-  max-width: 400px;
+  max-width: 480px;
   margin: 40px auto 0;
 }
 
 .auth-page .form-card {
   box-shadow: 0 1px 2px rgba(13, 31, 28, 0.06);
+}
+
+.auth-page .form-body {
+  padding: 26px 28px;
+}
+
+.auth-page .form-header {
+  padding: 22px 28px;
+}
+
+.auth-page .form-header h1 {
+  font-size: 1.15rem;
+}
+
+.auth-page .form-field {
+  margin-bottom: 18px;
+}
+
+.auth-page .form-field input {
+  padding: 11px 12px 11px 40px;
+  font-size: 0.92rem;
+}
+
+.auth-page .input-icon {
+  font-size: 18px;
+}
+
+.auth-page .password-toggle {
+  font-size: 18px;
+}
+
+.auth-page .btn {
+  padding: 11px 20px;
+  font-size: 0.88rem;
 }
 
 .auth-switch {
@@ -1001,59 +1090,4 @@ button:disabled,
   width: 50px;
   text-align: right;
   flex-shrink: 0;
-}
-
-/* ===== Auth forms (Sign Up / Sign In) ===== */
-.auth-page {
-  max-width: 400px;
-  margin: 60px auto;
-}
-
-.auth-page h1 {
-  text-align: center;
-  margin-bottom: 24px;
-}
-
-.auth-card {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 24px;
-}
-
-.auth-field {
-  margin-bottom: 16px;
-}
-
-.auth-field label {
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-
-.auth-field input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  font-size: 0.9rem;
-  font-family: inherit;
-}
-
-.auth-field input:focus {
-  outline: none;
-  border-color: var(--teal);
-}
-
-.auth-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.auth-actions button {
-  flex: 1;
-  justify-content: center;
 }
