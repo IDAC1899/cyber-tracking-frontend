@@ -3,6 +3,23 @@ import { Link } from 'react-router';
 
 import * as investigationService from '../../services/investigationService';
 
+// icon + color-family lookup per priority — color-family maps to CSS classes in index.css
+const PRIORITY_STYLE = {
+  Low: { icon: 'flag', family: 'green' },
+  Medium: { icon: 'flag', family: 'amber' },
+  High: { icon: 'flag-filled', family: 'red' },
+  Critical: { icon: 'alert-triangle', family: 'red' },
+};
+
+const PRIORITY_ACCENT = { Low: 'accent-low', Medium: 'accent-medium', High: 'accent-high', Critical: 'accent-critical' };
+const PRIORITY_BADGE = { Low: 'badge-solid-low', Medium: 'badge-solid-medium', High: 'badge-solid-high', Critical: 'badge-solid-critical' };
+const STATUS_BADGE = {
+  'Not Started': 'badge-outline-medium',
+  'In Progress': 'badge-outline-info',
+  'On Hold': 'badge-outline-medium',
+  Completed: 'badge-outline-low',
+};
+
 const InvestigationList = () => {
   const [investigations, setInvestigations] = useState([]);
   const [message, setMessage] = useState('');

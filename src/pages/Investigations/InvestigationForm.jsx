@@ -77,91 +77,93 @@ const InvestigationForm = () => {
         }
     };
 
-    return (
-        <main className='investigation-form-page'>
-            <div className='page-header'>
-                <h1>{isEdit ? 'Edit Investigation' : 'New Investigation'}</h1>
+      return (
+    <main>
+      <p className="eyebrow">{isEdit ? 'Edit investigation' : 'New investigation form'}</p>
+
+      <div className="form-card">
+        <div className="form-header">
+          <svg className="form-header-pattern" width="180" height="70" viewBox="0 0 180 70">
+            <path d="M0 50 L30 20 L60 45 L90 10 L120 40 L150 15 L180 35" fill="none" stroke="#fff" strokeWidth="2" />
+            <circle cx="90" cy="10" r="4" fill="#fff" />
+            <circle cx="150" cy="15" r="4" fill="#fff" />
+          </svg>
+          <h1>{isEdit ? 'Edit investigation' : 'Open a new investigation'}</h1>
+        </div>
+
+        <div className="form-body">
+          {message && <p className="error-message">{message}</p>}
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-field">
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                required
+              />
             </div>
 
-            {message && <p className='error-message'>{message}</p>}
+            <div className="form-field">
+              <label htmlFor="incident">Related incident</label>
+              <select id="incident" name="incident" value={formData.incident} onChange={handleChange} required>
+                <option value="" disabled>Select an incident</option>
+                {incidents.map((incident) => (
+                  <option key={incident._id} value={incident._id}>{incident.title}</option>
+                ))}
+              </select>
+            </div>
 
-            <form onSubmit={handleSubmit} className='investigation-form'>
-                <div className='form-section'>
-                    <div className='form-field'>
-                        <label htmlFor='title'>Title:</label>
-                        <input
-                            type='text'
-                            id='title'
-                            name='title'
-                            value={formData.title}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+            <div className="form-row">
+              <div className="form-field">
+                <label htmlFor="assignedTo">Assigned to</label>
+                <select id="assignedTo" name="assignedTo" value={formData.assignedTo} onChange={handleChange} required>
+                  <option value="" disabled>Select an analyst</option>
+                  {users.map((user) => (
+                    <option key={user._id} value={user._id}>{user.name}</option>
+                  ))}
+                </select>
+              </div>
 
-                    <div className='form-field'>
-                        <label htmlFor='incident'>Related Incident:</label>
-                        <select
-                            id='incident'
-                            name='incident'
-                            value={formData.incident}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value='' disabled>Select an incident</option>
-                            {incidents.map((incident) => (
-                                <option key={incident._id} value={incident._id}>{incident.title}</option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
+              <div className="form-field">
+                <label htmlFor="priority">Priority</label>
+                <select id="priority" name="priority" value={formData.priority} onChange={handleChange}>
+                  {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
 
-                <div className='form-section form-row'>
-                    <div className='form-field'>
-                        <label htmlFor='assignedTo'>Assigned To:</label>
-                        <select
-                            id='assignedTo'
-                            name='assignedTo'
-                            value={formData.assignedTo}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value='' disabled>Select an analyst</option>
-                            {users.map((user) => (
-                                <option key={user._id} value={user._id}>{user.name}</option>
-                            ))}
-                        </select>
-                    </div>
+              <div className="form-field">
+                <label htmlFor="status">Status</label>
+                <select id="status" name="status" value={formData.status} onChange={handleChange}>
+                  {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+              </div>
+            </div>
 
-                    <div className='form-field'>
-                        <label htmlFor='priority'>Priority:</label>
-                        <select id='priority' name='priority' value={formData.priority} onChange={handleChange}>
-                            {PRIORITIES.map((p) => <option key={p} value={p}>{p}</option>)}
-                        </select>
-                    </div>
+            <div className="form-field">
+              <label htmlFor="findings">Findings</label>
+              <textarea
+                id="findings"
+                name="findings"
+                value={formData.findings}
+                onChange={handleChange}
+              />
+            </div>
 
-                    <div className='form-field'>
-                        <label htmlFor='status'>Status:</label>
-                        <select id='status' name='status' value={formData.status} onChange={handleChange}>
-                            {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                    </div>
-                </div>
-                <div className='form-actions'>
-                    <button className='btn btn-primary'>
-                        {isEdit ? 'Save Changes' : 'Create Investigation'}
-                    </button>
-                    <button
-                        type='button'
-                        className='btn btn-link'
-                        onClick={() => navigate('/investigations')}
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </main>
-    );
+            <div className="form-actions">
+              <button className="btn btn-primary">{isEdit ? 'Save changes' : 'Create investigation'}</button>
+              <button type="button" className="btn btn-link" onClick={() => navigate('/investigations')}>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  );
 };
 
 export default InvestigationForm;
