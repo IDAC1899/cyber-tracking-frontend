@@ -16,8 +16,8 @@ const CATEGORY_STYLE = {
   Other: { icon: 'alert-triangle', family: 'gray' },
 };
 
-const SEVERITY_ACCENT = { Low: 'accent-low', Medium: 'accent-medium', High: 'accent-critical', Critical: 'accent-critical' };
-const SEVERITY_BADGE = { Low: 'badge-solid-low', Medium: 'badge-solid-medium', High: 'badge-solid-critical', Critical: 'badge-solid-critical' };
+const SEVERITY_ACCENT = { Low: 'accent-low', Medium: 'accent-medium', High: 'accent-high', Critical: 'accent-critical' };
+const SEVERITY_BADGE = { Low: 'badge-solid-low', Medium: 'badge-solid-medium', High: 'badge-solid-high', Critical: 'badge-solid-critical' };
 const STATUS_BADGE = {
   Open: 'badge-outline-medium',
   Investigating: 'badge-outline-info',

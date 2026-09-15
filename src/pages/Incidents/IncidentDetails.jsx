@@ -7,7 +7,7 @@ import * as incidentService from '../../services/incidentService';
 import { UserContext } from '../../contexts/UserContext';
 import ConfirmDelete from '../../components/ConfirmDelete/ConfirmDelete';
 
-const SEVERITY_CLASS = { Low: 'low', Medium: 'medium', High: 'critical', Critical: 'critical' };
+const SEVERITY_CLASS = { Low: 'low', Medium: 'medium', High: 'high', Critical: 'critical' };
 
 const IncidentDetails = () => {
   const { incidentId } = useParams();
@@ -70,6 +70,12 @@ const IncidentDetails = () => {
 
           <h1>{incident.title}</h1>
           <p className="description">{incident.description}</p>
+
+          {incident.attachment && (
+            <a href={incident.attachment} target="_blank" rel="noopener noreferrer">
+              <img src={incident.attachment} alt="Incident attachment" className="attachment-preview" />
+            </a>
+          )}
 
           {message && <p className="error-message">{message}</p>}
 
