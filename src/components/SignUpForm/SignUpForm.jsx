@@ -29,8 +29,8 @@ const SignUpForm = () => {
     evt.preventDefault();
     try {
       const newUser = await signUp(formData);
-    setUser(newUser);
-    navigate('/');
+      setUser(newUser);
+      navigate('/');
     } catch (err) {
       setMessage(err.message);
     }
@@ -41,70 +41,72 @@ const SignUpForm = () => {
   };
 
   return (
-    <main>
+    <main className='auth-page'>
       <h1>Sign Up</h1>
-      <p>{message}</p>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor='username'>Username:</label>
-          <input
-            type='text'
-            id='username'
-            value={username}
-            name='username'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='name'>Name:</label>
-          <input
-            type='text'
-            id='name'
-            value={name}
-            name='name'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='email'>Email:</label>
-          <input
-            type='email'
-            id='email'
-            value={email}
-            name='email'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor='password'>Password:</label>
-          <input
-            type='password'
-            id='password'
-            value={password}
-            name='password'
-            onChange={handleChange}
-            required
-        />
-        </div>
-        <div>
-          <label htmlFor='confirm'>Confirm Password:</label>
-          <input
-            type='password'
-            id='confirm'
-            value={passwordConf}
-            name='passwordConf'
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <button disabled={isFormInvalid()}>Sign Up</button>
-          <button type="button" onClick={() => navigate('/')}>Cancel</button>
-        </div>
-      </form>
+      {message && <p className='error-message'>{message}</p>}
+      <div className='auth-card'>
+        <form onSubmit={handleSubmit}>
+          <div className='auth-field'>
+            <label htmlFor='username'>Username:</label>
+            <input
+              type='text'
+              id='username'
+              value={username}
+              name='username'
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='auth-field'>
+            <label htmlFor='name'>Name:</label>
+            <input
+              type='text'
+              id='name'
+              value={name}
+              name='name'
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='auth-field'>
+            <label htmlFor='email'>Email:</label>
+            <input
+              type='email'
+              id='email'
+              value={email}
+              name='email'
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='auth-field'>
+            <label htmlFor='password'>Password:</label>
+            <input
+              type='password'
+              id='password'
+              value={password}
+              name='password'
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='auth-field'>
+            <label htmlFor='confirm'>Confirm Password:</label>
+            <input
+              type='password'
+              id='confirm'
+              value={passwordConf}
+              name='passwordConf'
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className='auth-actions'>
+            <button className='btn-primary' disabled={isFormInvalid()}>Sign Up</button>
+            <button type='button' className='btn-link' onClick={() => navigate('/')}>Cancel</button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 };
