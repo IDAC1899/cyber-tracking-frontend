@@ -6,6 +6,7 @@ import * as investigationService from '../../services/investigationService';
 const InvestigationList = () => {
   const [investigations, setInvestigations] = useState([]);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(true);
 
   // fetch all investigations once, when the page first loads
   useEffect(() => {
@@ -13,12 +14,15 @@ const InvestigationList = () => {
       try {
         const fetchedInvestigations = await investigationService.index();
         setInvestigations(fetchedInvestigations);
-      } catch (err) {
+            } catch (err) {
         setMessage(err.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchInvestigations();
   }, []);
+  
   return (
     <main className='investigation-list-page'>
       {/* page header: title + new investigation button */}
@@ -27,8 +31,15 @@ const InvestigationList = () => {
         <Link to='/investigations/new' className='btn btn-primary'>+ New Investigation</Link>
       </div>
 
-      {/* error/status message */}
-      {message && <p className='error-message'>{message}</p>}
+            {message && <p className='error-message'>{message}</p>}
+      {loading && <p className='status-message'>Loading investigations...</p>}
+
+      {!loading && !message && investigations.length === 0 && (
+        <div className='empty-state'>
+          <p>No investigations yet.</p>
+          <Link to='/investigations/new' className='btn btn-primary'>+ Create the first investigation</Link>
+        </div>
+      )}
 
       {/* investigation rows */}
       <div className='investigation-list'>
