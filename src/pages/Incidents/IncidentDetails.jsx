@@ -7,6 +7,8 @@ import * as incidentService from '../../services/incidentService';
 import { UserContext } from '../../contexts/UserContext';
 import ConfirmDelete from '../../components/ConfirmDelete/ConfirmDelete';
 
+const SEVERITY_CLASS = { Low: 'low', Medium: 'medium', High: 'critical', Critical: 'critical' };
+
 const IncidentDetails = () => {
   const { incidentId } = useParams();
   const navigate = useNavigate();
@@ -41,52 +43,70 @@ const IncidentDetails = () => {
 
   if (!incident) {
     return (
-      <main className='incident-details-page'>
-        <p className='status-message'>{message || 'Loading...'}</p>
+      <main>
+        <p className="status-message">{message || 'Loading...'}</p>
       </main>
     );
   }
 
+  const sevClass = SEVERITY_CLASS[incident.severity];
+
   return (
-    <main className='incident-details-page'>
-      <div className='page-header'>
-        <h1>{incident.title}</h1>
-        <div className='badge-row'>
-          <span className={`badge badge-severity-${incident.severity.toLowerCase()}`}>
-            {incident.severity}
-          </span>
-          <span className={`badge badge-status-${incident.status.toLowerCase().replace(' ', '-')}`}>
-            {incident.status}
-          </span>
+    <main>
+      <p className="eyebrow">Incident details</p>
+
+      <div className="details-grid">
+        <div className="details-card">
+          <svg className="details-card-watermark" width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="68" fill="none" stroke="#f4ede8" strokeWidth="1.5" />
+            <circle cx="70" cy="70" r="48" fill="none" stroke="#f4ede8" strokeWidth="1.5" />
+            <circle cx="70" cy="70" r="28" fill="none" stroke="#f4ede8" strokeWidth="1.5" />
+          </svg>
+
+          <div className={`severity-flag severity-flag-${sevClass}`}>
+            <span className={`severity-dot severity-dot-${sevClass}`}></span>
+            {incident.severity} incident
+          </div>
+
+          <h1>{incident.title}</h1>
+          <p className="description">{incident.description}</p>
+
+          {message && <p className="error-message">{message}</p>}
+
+          <div className="details-actions">
+            <Link to={`/incidents/${incident._id}/edit`} className="btn btn-primary">
+              <i className="ti ti-edit" aria-hidden="true"></i> Edit incident
+            </Link>
+            {user.role === 'admin' && (
+              <button onClick={() => setShowConfirm(true)} className="btn btn-danger">
+                <i className="ti ti-trash" aria-hidden="true"></i> Delete
+              </button>
+            )}
+            <Link to="/incidents" className="btn btn-link">Back to list</Link>
+          </div>
         </div>
-      </div>
 
-      {message && <p className='error-message'>{message}</p>}
+        <div className="meta-panel">
+          <svg className="meta-panel-watermark" width="120" height="120" viewBox="0 0 120 120">
+            <polygon points="60,6 108,33 108,87 60,114 12,87 12,33" fill="none" stroke="#1c3a34" strokeWidth="2" />
+          </svg>
 
-      <div className='incident-body'>
-        <p className='description'>{incident.description}</p>
+          <p className="meta-label">Status</p>
+          <p className="meta-value">{incident.status}</p>
 
-        <div className='detail-row'>
-          <span className='detail-label'>Category:</span>
-          <span className='detail-value'>{incident.category}</span>
+          <p className="meta-label">Category</p>
+          <p className="meta-value">{incident.category}</p>
+
+          <p className="meta-label">Assigned to</p>
+          <div className="meta-avatar-row">
+            <div className="meta-avatar">
+              {(incident.assignedTo?.name || incident.assignedTo?.username || '?').slice(0, 2).toUpperCase()}
+            </div>
+            <p className="meta-value meta-value-inline">
+              {incident.assignedTo?.name || incident.assignedTo?.username}
+            </p>
+          </div>
         </div>
-
-        <div className='detail-row'>
-          <span className='detail-label'>Assigned to:</span>
-          <span className='detail-value'>
-            {incident.assignedTo?.name || incident.assignedTo?.username}
-          </span>
-        </div>
-      </div>
-
-      <div className='action-row'>
-        <Link to={`/incidents/${incident._id}/edit`} className='btn btn-secondary'>Edit</Link>
-
-        {user.role === 'admin' && (
-          <button onClick={() => setShowConfirm(true)} className='btn btn-danger'>Delete</button>
-        )}
-
-        <Link to='/incidents' className='btn btn-link'>Back to list</Link>
       </div>
 
       {showConfirm && (
