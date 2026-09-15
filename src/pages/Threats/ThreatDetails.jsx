@@ -7,6 +7,8 @@ import * as threatService from '../../services/threatService';
 import { UserContext } from '../../contexts/UserContext';
 import ConfirmDelete from '../../components/ConfirmDelete/ConfirmDelete';
 
+const SEVERITY_CLASS = { Low: 'low', Medium: 'medium', High: 'high', Critical: 'critical' };
+
 const ThreatDetails = () => {
   const { threatId } = useParams();
   const navigate = useNavigate();
@@ -41,64 +43,73 @@ const ThreatDetails = () => {
 
   if (!threat) {
     return (
-      <main className='threat-details-page'>
-        <p className='status-message'>{message || 'Loading...'}</p>
+      <main>
+        <p className="status-message">{message || 'Loading...'}</p>
       </main>
     );
   }
 
+  const sevClass = SEVERITY_CLASS[threat.severity];
+  const canEdit = user.role === 'admin' || threat.createdBy?._id === user._id || threat.createdBy === user._id;
+
   return (
-    <main className='threat-details-page'>
-      <div className='page-header'>
-        <h1>{threat.name}</h1>
-        <div className='badge-row'>
-          <span className={`badge badge-severity-${threat.severity.toLowerCase()}`}>
-            {threat.severity}
-          </span>
-          <span className={`badge badge-status-${threat.status.toLowerCase().replace(' ', '-')}`}>
-            {threat.status}
-          </span>
-        </div>
-      </div>
+    <main>
+      <p className="eyebrow">Threat details</p>
 
-      {message && <p className='error-message'>{message}</p>}
+      <div className="details-grid">
+        <div className="details-card">
+          <svg className="details-card-watermark" width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="68" fill="none" stroke="#f4ede8" strokeWidth="1.5" />
+            <circle cx="70" cy="70" r="48" fill="none" stroke="#f4ede8" strokeWidth="1.5" />
+            <circle cx="70" cy="70" r="28" fill="none" stroke="#f4ede8" strokeWidth="1.5" />
+          </svg>
 
-      <div className='threat-body'>
-        <div className='detail-row'>
-          <span className='detail-label'>Type:</span>
-          <span className='detail-value'>{threat.type}</span>
-        </div>
-
-        <div className='detail-row'>
-          <span className='detail-label'>Value:</span>
-          <span className='detail-value'>{threat.value}</span>
-        </div>
-
-        {threat.source && (
-          <div className='detail-row'>
-            <span className='detail-label'>Source:</span>
-            <span className='detail-value'>{threat.source}</span>
+          <div className={`severity-flag severity-flag-${sevClass}`}>
+            <span className={`severity-dot severity-dot-${sevClass}`}></span>
+            {threat.severity} severity
           </div>
-        )}
 
-        <div className='detail-row'>
-          <span className='detail-label'>Related incident:</span>
-          <span className='detail-value'>
-            {threat.incident?.title || 'None'}
-          </span>
+          <h1>{threat.name}</h1>
+          <p className="description">{threat.value}</p>
+
+          {message && <p className="error-message">{message}</p>}
+
+          <div className="details-actions">
+            {canEdit && (
+              <Link to={`/threats/${threat._id}/edit`} className="btn btn-primary">
+                <i className="ti ti-edit" aria-hidden="true"></i> Edit threat
+              </Link>
+            )}
+            {user.role === 'admin' && (
+              <button onClick={() => setShowConfirm(true)} className="btn btn-danger">
+                <i className="ti ti-trash" aria-hidden="true"></i> Delete
+              </button>
+            )}
+            <Link to="/threats" className="btn btn-link">Back to list</Link>
+          </div>
         </div>
-      </div>
 
-           <div className='action-row'>
-        {(user.role === 'admin' || threat.createdBy?._id === user._id || threat.createdBy === user._id) && (
-          <Link to={`/threats/${threat._id}/edit`} className='btn btn-secondary'>Edit</Link>
-        )}
+        <div className="meta-panel">
+          <svg className="meta-panel-watermark" width="120" height="120" viewBox="0 0 120 120">
+            <polygon points="60,6 108,33 108,87 60,114 12,87 12,33" fill="none" stroke="#1c3a34" strokeWidth="2" />
+          </svg>
 
-        {user.role === 'admin' && (
-          <button onClick={() => setShowConfirm(true)} className='btn btn-danger'>Delete</button>
-        )}
+          <p className="meta-label">Type</p>
+          <p className="meta-value">{threat.type}</p>
 
-        <Link to='/threats' className='btn btn-link'>Back to list</Link>
+          <p className="meta-label">Status</p>
+          <p className="meta-value">{threat.status}</p>
+
+          {threat.source && (
+            <>
+              <p className="meta-label">Source</p>
+              <p className="meta-value">{threat.source}</p>
+            </>
+          )}
+
+          <p className="meta-label">Related incident</p>
+          <p className="meta-value">{threat.incident?.title || 'None'}</p>
+        </div>
       </div>
 
       {showConfirm && (
