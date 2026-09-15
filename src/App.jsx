@@ -9,6 +9,7 @@ import SignInForm from './components/SignInForm/SignInForm';
 import Landing from './components/Landing/Landing';
 import Dashboard from './components/Dashboard/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import NotFound from './components/NotFound/NotFound';
 
 import IncidentList from './pages/Incidents/IncidentList';
 import IncidentDetails from './pages/Incidents/IncidentDetails';
@@ -85,6 +86,8 @@ const App = () => {
           path='/investigations/:investigationId/edit'
           element={<ProtectedRoute><InvestigationForm /></ProtectedRoute>}
         />
+
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   );
