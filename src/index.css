@@ -16,6 +16,8 @@
 
   --critical: #c0392b;
   --critical-bg: #fdecea;
+  --high: #c1440e;
+  --high-bg: #fdece0;
   --medium: #b26a00;
   --medium-bg: #fff2df;
   --low: #2e7d32;
@@ -24,6 +26,46 @@
   --info-bg: #e3edfa;
 
   --radius: 0px; /* flat, angular corners throughout */
+}
+
+/* ===== Dark mode — overrides the same variables, nothing else needs to change ===== */
+[data-theme='dark'] {
+  --bg: #10201d;
+  --white: #182b27;
+  --border: #2a4038;
+  --text: #eef2f1;
+  --text-muted: #9fb3ac;
+
+  --teal-tint: #1c3a34;
+  --teal-tint-border: #2a4d43;
+
+  --critical-bg: #3a1f1c;
+  --high-bg: #3a2618;
+  --medium-bg: #3a2f18;
+  --low-bg: #1d3320;
+  --info-bg: #1a2c3d;
+}
+
+[data-theme='dark'] .incident-row,
+[data-theme='dark'] .details-card,
+[data-theme='dark'] .stat-card,
+[data-theme='dark'] .form-card,
+[data-theme='dark'] .severity-chart,
+[data-theme='dark'] .category-chart,
+[data-theme='dark'] .activity-feed,
+[data-theme='dark'] .team-list {
+  box-shadow: none;
+}
+
+[data-theme='dark'] .icon-chip-gray,
+[data-theme='dark'] .severity-chart-track,
+[data-theme='dark'] .category-chart-track,
+[data-theme='dark'] .team-track {
+  background: #24382f;
+}
+
+[data-theme='dark'] .watermark-gray {
+  stroke: #24382f;
 }
 
 * {
@@ -58,7 +100,7 @@ nav {
   background: var(--dark);
   position: relative;
   overflow: hidden;
-  height: 52px;
+  height: 56px;
 }
 
 nav::before {
@@ -69,16 +111,33 @@ nav::before {
   opacity: 0.5;
 }
 
-nav ul {
+nav .nav-inner {
   position: relative;
-  max-width: 960px;
+  max-width: 1040px;
   margin: 0 auto;
-  height: 52px;
-  list-style: none;
+  height: 56px;
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding: 0 22px;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  height: 56px;
+  gap: 4px;
+}
+
+nav .nav-links {
+  gap: 4px;
+}
+
+nav .nav-controls {
+  gap: 14px;
 }
 
 nav li {
@@ -89,30 +148,85 @@ nav li {
 nav a {
   color: #8fa39e;
   font-weight: 500;
+  padding: 7px 12px;
+  display: inline-block;
 }
 
-nav a.active,
-nav .nav-active {
+nav a:hover {
   color: #fff;
-  border-bottom: 2px solid var(--teal-light);
-  padding-bottom: 17px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+nav a.nav-active {
+  color: #fff;
+  background: rgba(93, 202, 165, 0.12);
+  position: relative;
+}
+
+nav a.nav-active::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  height: 2px;
+  background: var(--teal-light);
 }
 
 nav .nav-brand {
   color: #fff;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-right: 4px;
+  margin-right: 18px;
 }
 
-nav .nav-spacer {
-  flex: 1;
+/* right-side user group: avatar, name, and a visual divider before it */
+nav .nav-divider {
+  width: 1px;
+  height: 22px;
+  background: #24382f;
+}
+
+nav .nav-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+nav .nav-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+nav .btn-signout {
+  background: none;
+  border: 1px solid #2a4038;
+  color: #9fb3ac;
+  padding: 6px 12px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+nav .btn-signout:hover {
+  color: #fff;
+  border-color: var(--critical);
+  background: rgba(194, 57, 43, 0.12);
 }
 
 /* ===== Eyebrow section labels ===== */
@@ -264,6 +378,7 @@ button,
 
 /* ===== Severity accent bars (left edge of each incident row) ===== */
 .accent-critical { background: var(--critical); }
+.accent-high     { background: var(--high); }
 .accent-medium   { background: var(--medium); }
 .accent-low      { background: var(--low); }
 
@@ -315,6 +430,7 @@ button,
 }
 
 .badge-solid-critical { background: var(--critical); color: #fff; }
+.badge-solid-high     { background: var(--high); color: #fff; }
 .badge-solid-medium   { background: var(--medium); color: #fff; }
 .badge-solid-low      { background: var(--low); color: #fff; }
 
@@ -364,10 +480,12 @@ button,
 }
 
 .severity-dot-critical { background: var(--critical); }
+.severity-dot-high     { background: var(--high); }
 .severity-dot-medium   { background: var(--medium); }
 .severity-dot-low      { background: var(--low); }
 
 .severity-flag-critical { color: var(--critical); }
+.severity-flag-high     { color: var(--high); }
 .severity-flag-medium   { color: var(--medium); }
 .severity-flag-low      { color: var(--low); }
 
@@ -473,7 +591,7 @@ button,
 .form-header-pattern {
   position: absolute;
   right: 0;
-  top: -20px;
+  top: -10px;
   opacity: 0.35;
   pointer-events: none;
 }
@@ -572,6 +690,34 @@ button,
 .form-header-icon-row i {
   font-size: 20px;
   color: #fff;
+}
+
+/* ===== Attachment preview (incident images) ===== */
+.attachment-preview {
+  display: block;
+  max-width: 240px;
+  max-height: 180px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  margin: 10px 0 16px;
+  cursor: pointer;
+}
+
+/* ===== Theme toggle ===== */
+.theme-toggle {
+  background: none;
+  border: 1px solid #1c3a34;
+  color: #9fb3ac;
+  padding: 6px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.theme-toggle:hover {
+  color: var(--teal-light);
+  border-color: var(--teal-light);
 }
 
 .form-actions {
@@ -761,6 +907,7 @@ button:disabled,
 }
 
 .stat-card-sub-critical { color: var(--critical); }
+.stat-card-sub-high     { color: var(--high); }
 .stat-card-sub-medium   { color: var(--medium); }
 .stat-card-sub-info     { color: var(--info); }
 
@@ -817,10 +964,12 @@ button:disabled,
 .severity-chart-label-low      { color: var(--low); }
 .severity-chart-label-medium   { color: var(--medium); }
 .severity-chart-label-critical { color: var(--critical); }
+.severity-chart-label-high     { color: var(--high); }
 
 .severity-chart-fill-low      { background: var(--low); }
 .severity-chart-fill-medium   { background: var(--medium); }
 .severity-chart-fill-critical { background: var(--critical); }
+.severity-chart-fill-high     { background: var(--high); }
 
 /* ===== Auth pages (Sign In / Sign Up) ===== */
 .auth-page {
@@ -1001,6 +1150,7 @@ button:disabled,
 }
 
 .activity-title {
+  display: block;
   font-size: 0.84rem;
   font-weight: 600;
   color: var(--text);

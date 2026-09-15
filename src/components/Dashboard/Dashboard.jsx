@@ -7,7 +7,7 @@ import * as threatService from '../../services/threatService';
 import * as investigationService from '../../services/investigationService';
 
 const SEVERITIES = ['Low', 'Medium', 'High', 'Critical'];
-const SEVERITY_CLASS = { Low: 'low', Medium: 'medium', High: 'critical', Critical: 'critical' };
+const SEVERITY_CLASS = { Low: 'low', Medium: 'medium', High: 'high', Critical: 'critical' };
 
 // category -> icon + color family, matches the same families used on the Incident list
 const CATEGORY_STYLE = {
@@ -83,18 +83,21 @@ const Dashboard = () => {
   const activeThreats = threats.filter((t) => t.status === 'Active').length;
   const inProgressInvestigations = investigations.filter((i) => i.status === 'In Progress').length;
 
+  // severity breakdown, across all incidents
   const severityCounts = SEVERITIES.map((sev) => ({
     severity: sev,
     count: incidents.filter((i) => i.severity === sev).length,
   }));
   const maxSeverityCount = Math.max(1, ...severityCounts.map((s) => s.count));
 
+  // category breakdown, across all incidents
   const categoryCounts = Object.keys(CATEGORY_STYLE)
     .map((cat) => ({ category: cat, count: incidents.filter((i) => i.category === cat).length, ...CATEGORY_STYLE[cat] }))
     .filter((c) => c.count > 0)
     .sort((a, b) => b.count - a.count);
   const maxCategoryCount = Math.max(1, ...categoryCounts.map((c) => c.count));
 
+  // combine all three resources into one feed, sorted by most recently created
   const feed = [
     ...incidents.map((i) => ({
       id: i._id,
@@ -128,6 +131,7 @@ const Dashboard = () => {
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, 6);
 
+  // tally who's assigned to the most incidents + investigations, for a quick team workload view
   const workloadMap = {};
   [...incidents, ...investigations].forEach((item) => {
     const assignee = item.assignedTo;
