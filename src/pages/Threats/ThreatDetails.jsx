@@ -89,8 +89,10 @@ const ThreatDetails = () => {
         </div>
       </div>
 
-      <div className='action-row'>
-        <Link to={`/threats/${threat._id}/edit`} className='btn btn-secondary'>Edit</Link>
+           <div className='action-row'>
+        {(user.role === 'admin' || threat.createdBy?._id === user._id || threat.createdBy === user._id) && (
+          <Link to={`/threats/${threat._id}/edit`} className='btn btn-secondary'>Edit</Link>
+        )}
 
         {user.role === 'admin' && (
           <button onClick={() => setShowConfirm(true)} className='btn btn-danger'>Delete</button>
