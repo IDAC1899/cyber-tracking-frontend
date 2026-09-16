@@ -50,8 +50,7 @@ const ThreatDetails = () => {
   }
 
   const sevClass = SEVERITY_CLASS[threat.severity];
-  const canEdit = user.role === 'admin' || threat.createdBy?._id === user._id || threat.createdBy === user._id;
-
+  const canEdit = user.role === 'admin' || user.role === 'analyst';
   return (
     <main>
       <p className="eyebrow">Threat details</p>
