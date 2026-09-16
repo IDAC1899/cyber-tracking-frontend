@@ -1,4 +1,4 @@
-
+![CyberTrack](./public/images/Cyber-track-logo.png)
 # Cyber-Tracking-Frontend
  
 **Cyber Tracking** is a full-stack MERN application built for security teams to log, monitor, and manage cybersecurity incidents from detection through resolution. Analysts can report incidents, link related threat indicators (IPs, domains, malware, phishing artifacts) to each case, and open formal investigations assigned to specific team members — giving the whole workflow a clear paper trail from "something happened" to "here's what we found and fixed."
