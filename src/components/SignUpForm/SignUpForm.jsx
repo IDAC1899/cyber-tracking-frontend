@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router';
 
 import { signUp } from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
+import Logo from '../Logo/Logo';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -46,6 +47,10 @@ const SignUpForm = () => {
 
   return (
     <main className="auth-page">
+      <div className="auth-brand">
+        <Logo size={26} />
+        <span>CyberTrack</span>
+      </div>
       <p className="eyebrow">Create account</p>
 
       <div className="form-card">

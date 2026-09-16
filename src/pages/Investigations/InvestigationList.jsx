@@ -57,29 +57,54 @@ const InvestigationList = () => {
       </div>
 
       {message && <p className="error-message">{message}</p>}
-      {loading && <p className="status-message">Loading investigations...</p>}
+
+      {loading && (
+        <div className="incident-list">
+          {[...Array(4)].map((_, i) => (
+            <div className="skeleton-row" key={i}>
+              <div className="skeleton-block skeleton-icon" />
+              <div className="skeleton-block skeleton-title" />
+              <div className="skeleton-block skeleton-badge" />
+              <div className="skeleton-block skeleton-badge" />
+            </div>
+          ))}
+        </div>
+      )}
 
       {!loading && !message && investigations.length === 0 && (
         <div className="empty-state">
+          <div className="empty-state-icon">
+            <i className="ti ti-search" aria-hidden="true"></i>
+          </div>
           <p>No investigations yet.</p>
           <Link to="/investigations/new" className="btn btn-primary">+ Create the first investigation</Link>
         </div>
       )}
 
+      {!loading && investigations.length > 0 && (
+      <>
+      <div className="incident-list-header incident-list-header-compact">
+        <span className="incident-list-header-spacer"></span>
+        <span className="incident-list-header-spacer"></span>
+        <span className="incident-list-header-badge">Priority</span>
+        <span className="incident-list-header-badge">Status</span>
+      </div>
       <div className="incident-list">
         {investigations.map((investigation) => {
           const pri = PRIORITY_STYLE[investigation.priority] || PRIORITY_STYLE.Low;
           return (
             <div className="incident-row" key={investigation._id}>
               <div className={`incident-row-accent ${PRIORITY_ACCENT[investigation.priority]}`} />
-              <Link to={`/investigations/${investigation._id}`} className="incident-row-link">
-                <svg className={`row-watermark watermark-${pri.family}`} width="70" height="70" viewBox="0 0 70 70">
-                  <polygon points="35,4 62,20 62,50 35,66 8,50 8,20" fill="none" strokeWidth="10" />
-                </svg>
+              <Link to={`/investigations/${investigation._id}`} className="incident-row-link incident-row-link-compact">
                 <div className={`incident-row-icon icon-chip-${pri.family}`}>
                   <i className={`ti ti-${pri.icon}`} aria-hidden="true"></i>
                 </div>
-                <span className="incident-row-title">{investigation.title}</span>
+                <div className="incident-row-text">
+                  <span className="incident-row-title">{investigation.title}</span>
+                  <span className="incident-row-subtitle">
+                    {investigation.incident?.title ? `Re: ${investigation.incident.title}` : 'No linked incident'}
+                  </span>
+                </div>
                 <span className={`badge ${PRIORITY_BADGE[investigation.priority]}`}>{investigation.priority}</span>
                 <span className={`badge ${STATUS_BADGE[investigation.status]}`}>{investigation.status}</span>
               </Link>
@@ -87,6 +112,8 @@ const InvestigationList = () => {
           );
         })}
       </div>
+      </>
+      )}
     </main>
   );
 };

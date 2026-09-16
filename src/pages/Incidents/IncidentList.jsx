@@ -62,15 +62,39 @@ const IncidentList = () => {
       </div>
 
       {message && <p className="error-message">{message}</p>}
-      {loading && <p className="status-message">Loading incidents...</p>}
+
+      {loading && (
+        <div className="incident-list">
+          {[...Array(4)].map((_, i) => (
+            <div className="skeleton-row" key={i}>
+              <div className="skeleton-block skeleton-icon" />
+              <div className="skeleton-block skeleton-title" />
+              <div className="skeleton-block skeleton-badge" />
+              <div className="skeleton-block skeleton-badge" />
+            </div>
+          ))}
+        </div>
+      )}
 
       {!loading && !message && incidents.length === 0 && (
         <div className="empty-state">
+          <div className="empty-state-icon">
+            <i className="ti ti-inbox" aria-hidden="true"></i>
+          </div>
           <p>No incidents reported yet.</p>
           <Link to="/incidents/new" className="btn btn-primary">+ Report the first incident</Link>
         </div>
       )}
 
+      {!loading && incidents.length > 0 && (
+      <>
+      <div className="incident-list-header">
+        <span className="incident-list-header-spacer"></span>
+        <span className="incident-list-header-spacer"></span>
+        <span className="incident-list-header-assignee">Assignee</span>
+        <span className="incident-list-header-badge">Severity</span>
+        <span className="incident-list-header-badge">Status</span>
+      </div>
       <div className="incident-list">
         {incidents.map((incident) => {
           const cat = CATEGORY_STYLE[incident.category] || CATEGORY_STYLE.Other;
@@ -78,13 +102,21 @@ const IncidentList = () => {
             <div className="incident-row" key={incident._id}>
               <div className={`incident-row-accent ${SEVERITY_ACCENT[incident.severity]}`} />
               <Link to={`/incidents/${incident._id}`} className="incident-row-link">
-                <svg className={`row-watermark watermark-${cat.family}`} width="70" height="70" viewBox="0 0 70 70">
-                  <polygon points="35,4 62,20 62,50 35,66 8,50 8,20" fill="none" strokeWidth="10" />
-                </svg>
                 <div className={`incident-row-icon icon-chip-${cat.family}`}>
                   <i className={`ti ti-${cat.icon}`} aria-hidden="true"></i>
                 </div>
-                <span className="incident-row-title">{incident.title}</span>
+                <div className="incident-row-text">
+                  <span className="incident-row-title">{incident.title}</span>
+                  <span className="incident-row-subtitle">{incident.category}</span>
+                </div>
+                <div className="incident-row-assignee">
+                  <div className="meta-avatar">
+                    {(incident.assignedTo?.name || incident.assignedTo?.username || '?').slice(0, 2).toUpperCase()}
+                  </div>
+                  <span className="incident-row-assignee-name">
+                    {incident.assignedTo?.name || incident.assignedTo?.username}
+                  </span>
+                </div>
                 <span className={`badge ${SEVERITY_BADGE[incident.severity]}`}>{incident.severity}</span>
                 <span className={`badge ${STATUS_BADGE[incident.status]}`}>{incident.status}</span>
               </Link>
@@ -92,6 +124,8 @@ const IncidentList = () => {
           );
         })}
       </div>
+      </>
+      )}
     </main>
   );
 };

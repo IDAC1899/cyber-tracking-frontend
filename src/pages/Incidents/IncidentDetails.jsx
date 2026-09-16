@@ -112,6 +112,20 @@ const IncidentDetails = () => {
               {incident.assignedTo?.name || incident.assignedTo?.username}
             </p>
           </div>
+
+          {incident.lastEditedBy && (
+            <>
+              <p className="meta-label">Last edited by</p>
+              <div className="meta-avatar-row">
+                <div className="meta-avatar">
+                  {(incident.lastEditedBy?.name || incident.lastEditedBy?.username || '?').slice(0, 2).toUpperCase()}
+                </div>
+                <p className="meta-value meta-value-inline">
+                  {incident.lastEditedBy?.name || incident.lastEditedBy?.username}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </div>
 
