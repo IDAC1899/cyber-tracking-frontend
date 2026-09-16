@@ -8,9 +8,11 @@ The app uses token-based authentication with role-based permissions (analyst vs.
 We built this project to practice designing a real-world, role-based application with meaningful relationships between resources — not just a single CRUD model, but three connected entities working together the way a real security tool would.
  
 ## Getting Started
- 
+
+- [Live App](https://cyber-tracking-frontend.vercel.app)
 - [Back-End Repository](https://github.com/IDAC1899/cyber-tracking-backend)
 - [Front-End Repository](https://github.com/IDAC1899/cyber-tracking-frontend)
+
 ### Entity Relationship Diagram
  
 ![ERD](https://www.image2url.com/r2/default/images/1789123675799-15748367-d4af-4b6f-8a84-01f50a731953.png)
@@ -121,11 +123,13 @@ See the [ERD](#entity-relationship-diagram) above for full field types and relat
 | PUT | /investigations/:id | 200 `{ investigation }` | 404 `{ err: "Investigation not found" }` |
 | DELETE | /investigations/:id *(admin only)* | 200 `{ message: "Investigation deleted" }` | 403 `{ err: "Forbidden..." }` |
  
+## Recently Added
+
+- Email notifications when a new investigation is assigned, or a critical incident is created
+- Ownership-based edit restrictions on threats — analysts can only edit records they created, on top of the existing role-based delete restriction
+
 ## Next Steps
- 
+
 - Add a comments/notes thread on individual incidents
-- Add email notifications when a new investigation is assigned
-- Add ownership-based edit/delete restrictions on top of role-based permissions
 - Add filtering and search across incidents, threats, and investigations
 - Add a full audit log of status changes
- 
