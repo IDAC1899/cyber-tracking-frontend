@@ -50,7 +50,6 @@ const ThreatDetails = () => {
   }
 
   const sevClass = SEVERITY_CLASS[threat.severity];
-  const canEdit = user.role === 'admin' || user.role === 'analyst';
   return (
     <main>
       <p className="eyebrow">Threat details</p>
@@ -74,11 +73,9 @@ const ThreatDetails = () => {
           {message && <p className="error-message">{message}</p>}
 
           <div className="details-actions">
-            {canEdit && (
-              <Link to={`/threats/${threat._id}/edit`} className="btn btn-primary">
-                <i className="ti ti-edit" aria-hidden="true"></i> Edit threat
-              </Link>
-            )}
+            <Link to={`/threats/${threat._id}/edit`} className="btn btn-primary">
+              <i className="ti ti-edit" aria-hidden="true"></i> Edit threat
+            </Link>
             {user.role === 'admin' && (
               <button onClick={() => setShowConfirm(true)} className="btn btn-danger">
                 <i className="ti ti-trash" aria-hidden="true"></i> Delete
@@ -108,6 +105,20 @@ const ThreatDetails = () => {
 
           <p className="meta-label">Related incident</p>
           <p className="meta-value">{threat.incident?.title || 'None'}</p>
+
+          {threat.lastEditedBy && (
+            <>
+              <p className="meta-label">Last edited by</p>
+              <div className="meta-avatar-row">
+                <div className="meta-avatar">
+                  {(threat.lastEditedBy?.name || threat.lastEditedBy?.username || '?').slice(0, 2).toUpperCase()}
+                </div>
+                <p className="meta-value meta-value-inline">
+                  {threat.lastEditedBy?.name || threat.lastEditedBy?.username}
+                </p>
+              </div>
+            </>
+          )}
         </div>
       </div>
 

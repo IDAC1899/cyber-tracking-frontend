@@ -5,6 +5,7 @@ import { useNavigate, Link } from 'react-router';
 
 import { signIn } from '../../services/authService';
 import { UserContext } from '../../contexts/UserContext';
+import Logo from '../Logo/Logo';
 
 const SignInForm = () => {
   const navigate = useNavigate();
@@ -34,6 +35,10 @@ const SignInForm = () => {
 
   return (
     <main className="auth-page">
+      <div className="auth-brand">
+        <Logo size={26} />
+        <span>CyberTrack</span>
+      </div>
       <p className="eyebrow">Sign in</p>
 
       <div className="form-card">

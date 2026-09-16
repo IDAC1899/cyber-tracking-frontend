@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router';
 
 import { UserContext } from '../../contexts/UserContext';
+import Logo from '../Logo/Logo';
 
 const initials = (name) => (name || '?').slice(0, 2).toUpperCase();
 
@@ -42,9 +43,7 @@ const NavBar = () => {
           <>
             <ul className="nav-links">
               <li className="nav-brand">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5dcaa5" strokeWidth="2">
-                  <path d="M12 2 L20 6 V12 C20 17 16.5 20.5 12 22 C7.5 20.5 4 17 4 12 V6 Z" />
-                </svg>
+                <Logo size={16} />
                 CyberTrack
               </li>
               <li><Link to="/">Dashboard</Link></li>
@@ -74,7 +73,10 @@ const NavBar = () => {
         ) : (
           <>
             <ul className="nav-links">
-              <li className="nav-brand">CyberTrack</li>
+              <li className="nav-brand">
+                <Logo size={16} />
+                CyberTrack
+              </li>
               <li><Link to="/">Home</Link></li>
             </ul>
 

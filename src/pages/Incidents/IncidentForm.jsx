@@ -34,13 +34,18 @@ const IncidentForm = () => {
   useEffect(() => {
     if (isEdit) {
       const fetchIncident = async () => {
-        try {
-          const incident = await incidentService.show(incidentId);
-          setFormData(incident);
-        } catch (err) {
-          setMessage(err.message);
-        }
-      };
+  try {
+    const incident = await incidentService.show(incidentId);
+    setFormData({
+      title: incident.title,
+      description: incident.description,
+      severity: incident.severity,
+      category: incident.category,
+    });
+  } catch (err) {
+    setMessage(err.message);
+  }
+};
       fetchIncident();
     }
   }, [incidentId, isEdit]);
